@@ -13,7 +13,7 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
-          id: 2,
+          id: 11,
           name: '蔬菜',
           EnName: 'Vegetable',
           createdAt: new Date(),
