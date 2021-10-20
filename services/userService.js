@@ -15,6 +15,32 @@ const userService = {
       isAdmin: false
     })
     return { status: 'success', message: 'Successfully sign up'}
+  },
+  signIn: async (email, password) => {
+    const user = await User.findOne({ where: { email } })
+    if (!user) {
+      return { status: error, message: 'User does not exist' }
+    }
+    if (!bcrypt.compareSync(password, user.password)) {
+      return { status: error, message: 'Password incorrect' }
+    }
+    if (user.isAdmin) {
+      return { status: error, message: 'Access denied' }
+    }
+
+    const payload = { id: user.id }
+    const token = jwt.sign(payload, process.env.JWT_SECRET)
+
+    return {
+      status: 'success',
+      message: 'Successfully login',
+      token: token,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email
+      }
+    }
   }
 }
 
