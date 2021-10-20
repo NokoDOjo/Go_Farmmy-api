@@ -9,8 +9,13 @@ const productService = {
         }
       ]
     })
-    
+
     return products
+  },
+  getProduct: async (id) => {
+    const product = await Product.findByPk(id)
+
+    return product
   }
 }
 
