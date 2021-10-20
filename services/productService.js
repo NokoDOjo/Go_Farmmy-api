@@ -1,4 +1,5 @@
 const { Product, Category } = require('../models')
+const apiError = require('../libs/apiError')
 
 const productService = {
   getProducts: async () => {
@@ -12,9 +13,18 @@ const productService = {
 
     return products
   },
+  getProductsByCategory: async (CategoryId) => {
+    const products = await Product.findAll({
+      where: { CategoryId }
+    })
+
+    return products
+  },
   getProduct: async (id) => {
     const product = await Product.findByPk(id)
-
+    if (!product) {
+      throw apiError.badRequest(404, 'Product not found')
+    }
     return product
   }
 }

@@ -1,5 +1,6 @@
 const express = require('express')
 const cors = require('cors')
+const apiErrorHandler = require('./middlewares/errorHandler')
 
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
@@ -18,5 +19,7 @@ app.use(express.json())
 app.use(methodOverride('_method'))
 
 app.use(routes)
+
+app.use(apiErrorHandler)
 
 app.listen(PORT, () => console.log(`Example app listening on port ${PORT}`))
