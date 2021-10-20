@@ -1,12 +1,13 @@
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const { User } = require('../models')
+const apiError = require('../libs/apiError')
 
 const userService = {
   signUp: async (name, email, password) => {
     const duplicate_email = await User.findOne({ where: { email }})
     if (duplicate_email) {
-      return { status: 'error', message: 'Email has been registered' }
+      throw apiError.badRequest(400, 'This email has been registered')
     }
     const newUser = await User.create({
       name, 
@@ -19,13 +20,13 @@ const userService = {
   signIn: async (email, password) => {
     const user = await User.findOne({ where: { email } })
     if (!user) {
-      return { status: error, message: 'User does not exist' }
+      throw apiError.badRequest(404, 'User does not exist')
     }
     if (!bcrypt.compareSync(password, user.password)) {
-      return { status: error, message: 'Password incorrect' }
+      throw apiError.badRequest(403, 'Wrong password')
     }
     if (user.isAdmin) {
-      return { status: error, message: 'Access denied' }
+      throw apiError.badRequest(403, 'Access denied')
     }
 
     const payload = { id: user.id }
