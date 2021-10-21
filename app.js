@@ -1,6 +1,7 @@
 const express = require('express')
 const cors = require('cors')
 const apiErrorHandler = require('./middlewares/errorHandler')
+const session = require('express-session')
 
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
@@ -10,6 +11,16 @@ const routes = require('./routes')
 const app = express()
 const PORT = process.env.PORT || 3000
 const methodOverride = require('method-override')
+
+app.use(
+  session({
+    secret: 'gofarmmy',
+    name: 'gofarmmy',
+    cookie: { maxAge: 8000000 },
+    resave: false,
+    saveUninitialized: true,
+  })
+)
 
 app.use(cors())
 
