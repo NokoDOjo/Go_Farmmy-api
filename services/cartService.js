@@ -1,7 +1,19 @@
-const { Cart, CartItem, Product } = require('../models')
+const { Cart, CartItem, Product, Sequelize } = require('../models')
 const apiError = require('../libs/apiError')
 
 const cartService = {
+  getCart: async (cartId) => {
+    const cart = await Cart.findOne({
+      where: { id: cartId },
+      include: [{ model: Product, as: 'items', attributes: [ 'id', 'name', 'price', 'image' ] }],
+      attributes: [
+        'id', 
+        // [Sequelize.literal('SUM(`Products`.price * `Products->CartItems`.quantity)'), 'totalAmount']
+      ]
+    })
+
+    return cart
+  },
   postCart: async (cartId, productId, quantity) => {
 
     const product = await Product.findByPk(productId)
