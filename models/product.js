@@ -22,7 +22,8 @@ module.exports = (sequelize, DataTypes) => {
     image: DataTypes.STRING,
     storage_method: DataTypes.STRING,
     origin: DataTypes.STRING,
-    specification: DataTypes.STRING
+    specification: DataTypes.STRING,
+    number: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Product',
