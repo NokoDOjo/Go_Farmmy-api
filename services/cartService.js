@@ -2,9 +2,9 @@ const { Cart, CartItem, Product, Sequelize } = require('../models')
 const apiError = require('../libs/apiError')
 
 const cartService = {
-  getCart: async (cartId) => {
+  getCart: async (userId) => {
     const cart = await Cart.findOne({
-      where: { id: cartId },
+      where: { UserId: userId },
       include: [{ model: Product, as: 'items', attributes: [ 'id', 'name', 'price', 'image' ] }],
       attributes: [
         'id', 
@@ -14,7 +14,7 @@ const cartService = {
 
     return cart
   },
-  postCart: async (cartId, productId, quantity) => {
+  postCart: async (userId, productId, quantity) => {
 
     const product = await Product.findByPk(productId)
 
@@ -24,7 +24,7 @@ const cartService = {
 
     const [cart] = await Cart.findOrCreate({
       where: {
-        id: cartId || 0,
+        UserId: userId || 0,
       }
     })
 

@@ -9,6 +9,6 @@ router.use('/api/products', products)
 
 router.use('/api/users', users)
 
-router.use('/api/cart', cart)
+router.use('/api/cart', authenticated, cart)
 
 module.exports = router

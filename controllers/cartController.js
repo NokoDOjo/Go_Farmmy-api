@@ -3,15 +3,8 @@ const cartService = require('../services/cartService')
 const cartController = {
   getCart: async (req, res, next) => {
     try {
-      if (!req.session.cartId) {
-        return res.json({
-          status: 'error',
-          message: 'Need cartId'
-        })
-      }
-
-      const cartId = req.session.cartId
-      const cart = await cartService.getCart(cartId)
+      const userId = req.user.id
+      const cart = await cartService.getCart(userId)
 
       return res.json({cart})
     } catch (error) {
@@ -21,6 +14,7 @@ const cartController = {
   postCart: async (req, res, next) => {
     try {
       const { productId, quantity } = req.body
+      const userId = req.user.id
       if (!req.body.productId) {
         return res.json({
           status: 'error',
@@ -28,10 +22,7 @@ const cartController = {
         })
       }
 
-      const cartId = req.session.cartId
-      const { cart, cartItem, product } = await cartService.postCart(cartId, productId, quantity)
-      req.session.cartId = cart.id
-      await req.session.save()
+      const { cart, cartItem, product } = await cartService.postCart(userId, productId, quantity)
 
       return res.json({
         status: 'success',
