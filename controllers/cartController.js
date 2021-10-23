@@ -6,7 +6,7 @@ const cartController = {
       const userId = req.user.id
       const cart = await cartService.getCart(userId)
 
-      return res.json({cart})
+      return res.json({ cart })
     } catch (error) {
       next(error)
     }
@@ -18,7 +18,7 @@ const cartController = {
       if (!req.body.productId) {
         return res.json({
           status: 'error',
-          message: 'Need productId'
+          message: 'Need productId',
         })
       }
 
@@ -28,7 +28,7 @@ const cartController = {
         status: 'success',
         cart,
         cartItem,
-        product
+        product,
       })
     } catch (error) {
       next(error)
@@ -42,12 +42,26 @@ const cartController = {
 
       return res.json({
         cartItem,
-        product
+        product,
       })
     } catch (error) {
       next(error)
     }
-  }
+  },
+  subCartItem: async (req, res, next) => {
+    try {
+      const productId = req.params.id
+      const userId = req.user.id
+      const { cartItem, product } = await cartService.subCartItem(productId, userId)
+
+      return res.json({
+        cartItem,
+        product,
+      })
+    } catch (error) {
+      next(error)
+    }
+  },
 } 
 
 module.exports = cartController
