@@ -61,7 +61,21 @@ const cartController = {
     } catch (error) {
       next(error)
     }
-  },
+  }, 
+  deleteCartItem: async (req, res, next) => {
+    try {
+      const productId = req.params.id
+      const userId = req.user.id
+      const { status, message } = await cartService.deleteCartItem(productId, userId)
+
+      return res.json({
+        status,
+        message
+      })
+    } catch (error) {
+      next(error)
+    }
+  }
 } 
 
 module.exports = cartController

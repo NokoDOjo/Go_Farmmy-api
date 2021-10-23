@@ -81,6 +81,28 @@ const cartService = {
 
     return { cartItem, product }
   },
+  deleteCartItem: async (productId, userId) => {
+
+    const product = await Product.findByPk(productId)
+
+    const userCart = await Cart.findOne({
+      where: { UserId: userId },
+    })
+
+    const cartId = userCart.dataValues.id
+
+    const cartItem = await CartItem.findOne({
+      where: { CartId: cartId, ProductId: productId },
+    })
+
+    const quantity = cartItem.dataValues.quantity
+
+    await product.increment('quantity', { by: quantity })
+
+    await cartItem.destroy()
+
+    return { status: 'success', message: 'Successfully deleted cart item'}
+  }
 }
 
 module.exports = cartService
