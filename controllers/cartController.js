@@ -33,6 +33,20 @@ const cartController = {
     } catch (error) {
       next(error)
     }
+  },
+  addCartItem: async (req, res, next) => {
+    try {
+      const productId = req.params.id
+      const userId = req.user.id
+      const { cartItem, product } = await cartService.addCartItem(productId, userId)
+
+      return res.json({
+        cartItem,
+        product
+      })
+    } catch (error) {
+      next(error)
+    }
   }
 } 
 

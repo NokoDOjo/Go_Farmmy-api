@@ -47,6 +47,24 @@ const cartService = {
       newCartItem,
       product
     }
+  },
+  addCartItem: async (productId, userId) => {
+
+    const product = await Product.findByPk(productId)
+    if (product.quantity === 0) {
+      throw apiError.badRequest(400, 'This merchandise is out of stock')
+    }
+    const userCart = await Cart.findOne({
+      where: { UserId: userId }
+    })
+
+    const cartId = userCart.dataValues.id
+    const cartItem = await CartItem.findOne({
+      where: { CartId: cartId, ProductId: productId }
+    })
+    await cartItem.increment('quantity')
+
+    return { cartItem, product }
   }
 }
 
