@@ -1,4 +1,4 @@
-const { Cart, CartItem, Product, Sequelize, sequelize } = require('../models')
+const { Cart, CartItem, Product, shipping, sequelize } = require('../models')
 const apiError = require('../libs/apiError')
 
 const cartService = {
@@ -21,7 +21,13 @@ const cartService = {
 
     let totalPrice = cart.items.length > 0 ? cart.items.map(d => d.price * d.CartItem.quantity).reduce((a, b)=>a+b) : 0
 
-    return { cart, totalPrice }
+    let totalQuantity = cart.items.length > 0 ? cart.items.map((d) => d.CartItem.quantity).reduce((a, b) => a + b) : 0
+
+    const shippingInfo = await shipping.findOne({
+      where: { quantity: totalQuantity }
+    })
+
+    return { cart, totalPrice, shippingInfo }
   },
   postCart: async (userId, productId, quantity) => {
     const product = await Product.findByPk(productId)

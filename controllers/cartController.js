@@ -4,9 +4,9 @@ const cartController = {
   getCart: async (req, res, next) => {
     try {
       const userId = req.user.id
-      const { cart, totalPrice } = await cartService.getCart(userId)
+      const { cart, totalPrice, shippingInfo } = await cartService.getCart(userId)
 
-      return res.json({ cart, totalPrice })
+      return res.json({ cart, totalPrice, shippingInfo })
     } catch (error) {
       next(error)
     }
