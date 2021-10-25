@@ -42,6 +42,11 @@ const userService = {
         email: user.email
       }
     }
+  },
+  getCurrentUser: async (userId) => {
+    const currentUser = await User.findByPk(userId)
+
+    return currentUser
   }
 }
 
