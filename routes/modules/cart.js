@@ -12,4 +12,6 @@ router.post('/cartItem/:id/sub', cartController.subCartItem)
 
 router.delete('/cartItem/:id', cartController.deleteCartItem)
 
+router.delete('/cartItem', cartController.deleteAllCartItem)
+
 module.exports = router

@@ -5,7 +5,7 @@ const cartService = {
   getCart: async (userId) => {
     const cart = await Cart.findOne({
       where: { UserId: userId },
-      include: [{ model: Product, as: 'items', attributes: ['id', 'name', 'price', 'image'] }],
+      include: [{ model: Product, as: 'items' }],
       attributes: [
         'id',
         // [Sequelize.literal('SUM(`Products`.price * `Products->CartItems`.quantity)'), 'totalAmount']
@@ -34,9 +34,6 @@ const cartService = {
       },
     })
 
-    product.quantity -= quantity
-    await product.save()
-
     isItemNew ? (newCartItem.quantity = Number(quantity) || 1) : (newCartItem.quantity += Number(quantity) || 1)
 
     await newCartItem.save()
@@ -61,7 +58,6 @@ const cartService = {
       where: { CartId: cartId, ProductId: productId },
     })
     await cartItem.increment('quantity')
-    await product.decrement('quantity')
 
     return { cartItem, product }
   },
@@ -77,13 +73,10 @@ const cartService = {
       where: { CartId: cartId, ProductId: productId },
     })
     await cartItem.decrement('quantity')
-    await product.increment('quantity')
 
     return { cartItem, product }
   },
   deleteCartItem: async (productId, userId) => {
-
-    const product = await Product.findByPk(productId)
 
     const userCart = await Cart.findOne({
       where: { UserId: userId },
@@ -95,13 +88,22 @@ const cartService = {
       where: { CartId: cartId, ProductId: productId },
     })
 
-    const quantity = cartItem.dataValues.quantity
-
-    await product.increment('quantity', { by: quantity })
-
     await cartItem.destroy()
 
     return { status: 'success', message: 'Successfully deleted cart item'}
+  },
+  deleteAllCartItem: async (userId) => {
+    const userCart = await Cart.findOne({
+      where: { UserId: userId },
+    })
+
+    const cartId = userCart.dataValues.id
+
+    await CartItem.destroy({
+      where: { CartId: cartId }
+    })
+
+    return { status: 'success', message: 'Successfully deleted all cart item'}
   }
 }
 
