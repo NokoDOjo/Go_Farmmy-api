@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const { User } = require('../models')
+const { User, Order, Product } = require('../models')
 const apiError = require('../libs/apiError')
 
 const userService = {
@@ -45,8 +45,12 @@ const userService = {
   },
   getCurrentUser: async (userId) => {
     const currentUser = await User.findByPk(userId)
+    const userOrders = await Order.findAll({
+      where: { UserId: userId },
+      include: [{ model: Product, as: 'items' }],
+    })
 
-    return currentUser
+    return { currentUser, userOrders }
   }
 }
 

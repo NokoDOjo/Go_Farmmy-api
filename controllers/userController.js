@@ -28,8 +28,8 @@ const userController = {
   getCurrentUser: async (req, res, next) => {
     try {
       const currentUserId = req.user.id
-      const currentUser = await userService.getCurrentUser(currentUserId)
-      return res.json({currentUser})
+      const { currentUser, userOrders }  = await userService.getCurrentUser(currentUserId)
+      return res.json({ currentUser, userOrders })
     } catch (error) {
       next(error)
     }
