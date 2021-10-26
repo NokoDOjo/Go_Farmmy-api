@@ -12,6 +12,7 @@ const cartService = {
         'image',
         'specification',
         'number',
+        'quantity',
         [sequelize.literal('`items`. price * `items->CartItem`. quantity'), 'totalPrice']
       ] }],
       attributes: [
