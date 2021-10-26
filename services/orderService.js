@@ -50,6 +50,14 @@ const orderService = {
     })
 
     return { orderId, orderData, orderItemData }
+  },
+  getOrder: async (orderId) => {
+    const order = await Order.findOne({
+      where: { id: orderId },
+      include: [{ model: Product, as: 'items' }]
+    })
+
+    return order
   }
 }
 

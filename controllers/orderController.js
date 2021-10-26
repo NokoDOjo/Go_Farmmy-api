@@ -32,6 +32,16 @@ const orderController = {
     } catch (error) {
       next(error)
     }
+  },
+  getOrder: async (req, res, next) => {
+    try {
+      const orderId = req.params.id 
+      const order = await orderService.getOrder(orderId)
+
+      return res.json({order})
+    } catch (error) {
+      next(error)
+    }
   }
 }
 
