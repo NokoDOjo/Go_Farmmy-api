@@ -27,7 +27,7 @@ const cartService = {
       where: { quantity: totalQuantity }
     })
 
-    return { cart, totalPrice, shippingInfo }
+    return { cart, totalPrice, totalQuantity, shippingInfo }
   },
   postCart: async (userId, productId, quantity) => {
     const product = await Product.findByPk(productId)

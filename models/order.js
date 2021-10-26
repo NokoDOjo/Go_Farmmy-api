@@ -10,7 +10,6 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Order.belongsTo(models.User)
       Order.belongsToMany(models.Product, {
         as: 'items',
         through: {
@@ -19,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         foreignKey: 'OrderId'
       })
-
+      Order.belongsTo(models.User)
     }
   };
   Order.init({
@@ -31,8 +30,8 @@ module.exports = (sequelize, DataTypes) => {
     recipientPhone: DataTypes.STRING,
     recipientAddress: DataTypes.STRING,
     amount: DataTypes.INTEGER,
-    shipping_status: DataTypes.STRING,
-    payment_status: DataTypes.STRING,
+    shipping_status: { type:DataTypes.STRING, defaultValue: '0' },
+    payment_status:{ type:DataTypes.STRING, defaultValue: '0' },
     UserId: DataTypes.INTEGER,
     sn: DataTypes.STRING,
   }, {
