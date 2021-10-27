@@ -10,6 +10,16 @@ const paymentController = {
     } catch (error) {
       next(error)
     }
+  },
+  spgatewayCallback: async (req, res, next) => {
+    try {
+      const tradeInfo = req.body.tradeInfo
+      await paymentService.spgatewayCallback(tradeInfo)
+
+      return res.redirect('http://localhost:8080/#/goFarmmy/checkout/complete')
+    } catch (error) {
+      next(error)
+    }
   }
 }
 
