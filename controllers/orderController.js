@@ -1,5 +1,6 @@
 const orderService = require('../services/orderService')
 const cartService = require('../services/cartService')
+const emailNotice = require('../libs/emailNotice')
 
 const orderController = {
   postOrder: async (req, res, next) => {
@@ -21,7 +22,7 @@ const orderController = {
         cart
       )
 
-      return res.json({
+      res.json({
         status: 'success',
         message: 'Successfully added an order',
         orderId,
@@ -29,6 +30,12 @@ const orderController = {
         orderItemData,
         shippingInfo
       })
+
+      const emailSubject = '[農作伙系統信]：您的訂單已成立！'
+      const emailContent = `<h4>${customerName} 你好</h4> <p>您的訂單已成立，若有任何問題，歡迎隨時與我們聯繫，感謝！</p>`
+      
+      emailNotice.sendEmail(customerEmail, emailSubject, emailContent)
+
     } catch (error) {
       next(error)
     }
