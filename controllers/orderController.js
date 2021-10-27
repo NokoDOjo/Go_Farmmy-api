@@ -8,6 +8,7 @@ const orderController = {
       const userId = req.user.id
       const { customerName, customerEmail, customerPhone, recipientName, recipientEmail, recipientPhone, recipientAddress } = req.body
       const { cart, totalPrice, totalQuantity, shippingInfo } = await cartService.getCart(userId)
+      const checkoutPrice = totalPrice + shippingInfo.fee
 
       const { orderId, orderData, orderItemData } = await orderService.postOrder(
         userId,
@@ -18,7 +19,7 @@ const orderController = {
         recipientEmail,
         recipientPhone,
         recipientAddress,
-        totalPrice,
+        checkoutPrice,
         cart
       )
 
