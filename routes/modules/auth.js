@@ -3,6 +3,7 @@ const router = express.Router()
 
 const passport = require('passport')
 const jwt = require('jsonwebtoken')
+const { reseller } = require('googleapis/build/src/apis/reseller')
 
 router.get(
   '/facebook',
@@ -17,8 +18,7 @@ router.get(
     const user = req.user
     const payload = { id: user.id }
     const token = jwt.sign(payload, process.env.JWT_SECRET)
-    res.cookie('auth', token)
-    res.redirect('http://localhost:8080/#/goFarmmy/signin')
+    return res.status(200).cookie('token', token).redirect('http://localhost:8080/#/goFarmmy/signin')
   }
 )
 
