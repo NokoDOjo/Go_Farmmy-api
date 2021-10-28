@@ -13,15 +13,19 @@ router.get(
 
 router.get(
   '/facebook/callback',
-  passport.authenticate('facebook'), (req, res) => {
+  passport.authenticate('facebook', {
+    failureRedirect: 'https://localhost:8080/#/goFarmmy/signin',
+    successRedirect: 'https://localhost:8080/#/goFarmmy/signin',
+  }),
+  (req, res) => {
     const user = req.user
     const payload = { id: user.id }
     const token = jwt.sign(payload, process.env.JWT_SECRET)
-    res.json({ 
+    res.json({
       status: 'success',
       message: 'Successfully login',
-      user, 
-      token 
+      user,
+      token,
     })
   }
 )
@@ -35,15 +39,19 @@ router.get(
 
 router.get(
   '/google/callback',
-  passport.authenticate('google'), (req, res) => {
+  passport.authenticate('google', {
+    failureRedirect: 'https://localhost:8080/#/goFarmmy/signin',
+    successRedirect: 'https://localhost:8080/#/goFarmmy/signin',
+  }),
+  (req, res) => {
     const user = req.user
     const payload = { id: user.id }
     const token = jwt.sign(payload, process.env.JWT_SECRET)
-    res.json({ 
+    res.json({
       status: 'success',
       message: 'Successfully login',
-      user, 
-      token 
+      user,
+      token,
     })
   }
 )
