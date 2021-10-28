@@ -14,8 +14,8 @@ router.get(
 router.get(
   '/facebook/callback',
   passport.authenticate('facebook', {
-    failureRedirect: 'https://localhost:8080/#/goFarmmy/signin',
-    successRedirect: 'https://localhost:8080/#/goFarmmy/signin',
+    failureRedirect: 'http://localhost:8080/#/goFarmmy/signin',
+    successRedirect: 'http://localhost:8080/#/goFarmmy/signin',
   }),
   (req, res) => {
     const user = req.user
@@ -40,8 +40,8 @@ router.get(
 router.get(
   '/google/callback',
   passport.authenticate('google', {
-    failureRedirect: 'https://localhost:8080/#/goFarmmy/signin',
-    successRedirect: 'https://localhost:8080/#/goFarmmy/signin',
+    failureRedirect: 'http://localhost:8080/#/goFarmmy/signin',
+    successRedirect: 'http://localhost:8080/#/goFarmmy/signin',
   }),
   (req, res) => {
     const user = req.user
