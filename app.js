@@ -2,6 +2,7 @@ const express = require('express')
 const cors = require('cors')
 const apiErrorHandler = require('./middlewares/errorHandler')
 const session = require('express-session')
+const passport = require('passport')
 
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
@@ -28,6 +29,8 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
 app.use(methodOverride('_method'))
+
+app.use(passport.initialize())
 
 app.use(routes)
 
