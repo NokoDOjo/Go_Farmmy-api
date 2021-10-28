@@ -16,18 +16,7 @@ router.get(
   passport.authenticate('facebook', {
     failureRedirect: 'http://localhost:8080/#/goFarmmy/signin',
     successRedirect: 'http://localhost:8080/#/goFarmmy/signin',
-  }),
-  (req, res) => {
-    const user = req.user
-    const payload = { id: user.id }
-    const token = jwt.sign(payload, process.env.JWT_SECRET)
-    res.json({
-      status: 'success',
-      message: 'Successfully login',
-      user,
-      token,
-    })
-  }
+  })
 )
 
 router.get(
@@ -55,4 +44,21 @@ router.get(
     })
   }
 )
+
+router.get(
+  '/facebook/status',
+  passport.authenticate('facebook'),
+  (req, res) => {
+    const user = req.user
+    const payload = { id: user.id }
+    const token = jwt.sign(payload, process.env.JWT_SECRET)
+    res.json({
+      status: 'success',
+      message: 'Successfully login',
+      user,
+      token
+    })
+  }
+)
+
 module.exports = router
