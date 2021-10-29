@@ -60,6 +60,34 @@ const adminService = {
         product
       }
     }
+  },
+  putProduct: async (productId, files, body) => {
+    if (files) {
+      imgur.setClientId(IMGUR_CLIENT_ID)
+      const image = files.image ? await imgur.uploadFile(files.image[0].path) : null
+
+      const product = await Product.findByPk(productId)
+
+      await product.update({
+        ...body,
+        image: files.image ? image.link : product.image
+      })
+
+      return {
+        status: 'success',
+        message: 'Successfully edited product',
+        product
+      }
+    }
+  },
+  deleteProduct: async (productId) => {
+    const product = await Product.findByPk(productId)
+    await product.destroy()
+
+    return { 
+      status: 'success',
+      message: 'Successfully deleted product'
+    }
   }
 }
 
