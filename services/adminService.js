@@ -90,7 +90,7 @@ const adminService = {
   getUsers: async () => {
     const users = await User.findAll({
       where: { isAdmin: 0 },
-      order: [['createdAt', 'DESC']]
+      order: [['createdAt', 'ASC']]
     })
     return users
   },

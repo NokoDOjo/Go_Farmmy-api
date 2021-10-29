@@ -99,16 +99,20 @@ const paymentService = {
 
     return { order, tradeInfo }
   },
-  spgatewayCallback: async (tradeInfo) => {
-    const data = JSON.parse(createMpgAesDecrypt(tradeInfo))
-
+  spgatewayCallback: async (body) => {
+    const data = JSON.parse(createMpgAesDecrypt(body.TradeInfo))
+    let redirectURL = ''
     const order = await Order.findOne({ where: { sn: data.Result.MerchantOrderNo }})
 
-    if (data.Status === 'SUCCESS') {
+    if (body.Status === 'SUCCESS') {
       await order.update({
         payment_status: 1
       })
+      redirectURL = 'http://localhost:8080/#/goFarmmy/checkout/complete'
+      return redirectURL
     }
+    redirectURL = 'http://localhost:8080/#/goFarmmy/checkout/payment'
+    return redirectURL
   }
 }
 
