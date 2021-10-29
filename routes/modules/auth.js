@@ -3,7 +3,6 @@ const router = express.Router()
 
 const passport = require('passport')
 const jwt = require('jsonwebtoken')
-const { reseller } = require('googleapis/build/src/apis/reseller')
 
 router.get(
   '/facebook',
