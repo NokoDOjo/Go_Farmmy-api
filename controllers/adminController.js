@@ -69,6 +69,26 @@ const adminProduct = {
     } catch (error) {
       next(error)
     }
+  },
+  getUsers: async (req, res, next) => {
+    try {
+      const users = await adminService.getUsers()
+
+      return res.json({ users })
+    } catch (error) {
+      next(error)
+    }
+  },
+  putUser: async (req, res, next) => {
+    try {
+      const userId = req.params.id
+
+      const { status, message, user } = await adminService.putUser(userId, req.body)
+
+      return res.json({ status, message, user })
+    } catch (error) {
+      next(error)
+    }
   }
 }
 

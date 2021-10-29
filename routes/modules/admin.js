@@ -29,4 +29,8 @@ router.put('/product/:id', authenticated, checkAdmin, cpUpload, adminController.
 
 router.delete('/product/:id', authenticated, checkAdmin, adminController.deleteProduct)
 
+router.get('/users', authenticated, checkAdmin, adminController.getUsers)
+
+router.put('/users/:id', authenticated, checkAdmin, adminController.putUser)
+
 module.exports = router

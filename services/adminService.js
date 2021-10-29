@@ -3,8 +3,6 @@ const bcrypt = require('bcryptjs')
 const apiError = require('../libs/apiError')
 const jwt = require('jsonwebtoken')
 const imgur = require('imgur')
-const { prototype } = require('../libs/apiError')
-const { image } = require('faker')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 
 const adminService = {
@@ -87,6 +85,23 @@ const adminService = {
     return { 
       status: 'success',
       message: 'Successfully deleted product'
+    }
+  },
+  getUsers: async () => {
+    const users = await User.findAll({
+      where: { isAdmin: 0 },
+      order: [['createdAt', 'DESC']]
+    })
+    return users
+  },
+  putUser: async (userId, body) => {
+    const user = await User.findByPk(userId)
+    await user.update({...body})
+
+    return {
+      status: 'success',
+      message: 'Successfully edited user data',
+      user
     }
   }
 }
