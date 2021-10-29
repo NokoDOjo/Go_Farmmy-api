@@ -2,6 +2,10 @@ const { Product, User, Order, OrderItem, Category } = require('../models')
 const bcrypt = require('bcryptjs')
 const apiError = require('../libs/apiError')
 const jwt = require('jsonwebtoken')
+const imgur = require('imgur')
+const { prototype } = require('../libs/apiError')
+const { image } = require('faker')
+const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 
 const adminService = {
   signIn: async (email, password) => {
@@ -39,6 +43,23 @@ const adminService = {
     const product = await Product.findByPk(productId, { include: [Category] })
 
     return product 
+  },
+  postProduct: async (files, body) => {
+    if (files) {
+      imgur.setClientId(IMGUR_CLIENT_ID)
+      const image = files.image ? await imgur.uploadFile(files.image[0].path) : null
+
+      const product = await Product.create({
+        ...body,
+        image: image.link
+      })
+
+      return {
+        status: 'success',
+        message: 'Successfully added product',
+        product
+      }
+    }
   }
 }
 

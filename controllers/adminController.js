@@ -1,4 +1,5 @@
 const adminService = require('../services/adminService')
+const userService = require('../services/userService')
 
 const adminProduct = {
   signIn: async (req, res, next) => {
@@ -31,6 +32,17 @@ const adminProduct = {
       const product = await adminService.getProduct(productId)
 
       return res.json({ product })
+    } catch (error) {
+      next(error)
+    }
+  },
+  postProduct: async (req, res, next) => {
+    try {
+      const { files } = req
+
+      const { status, message, product } = await adminService.postProduct(files, req.body)
+      
+      return res.json({ status, message, product })
     } catch (error) {
       next(error)
     }
