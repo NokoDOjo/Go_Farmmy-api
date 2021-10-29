@@ -24,6 +24,15 @@ const userController = {
     } catch (error) {
       next(error)
     }
+  },
+  getCurrentUser: async (req, res, next) => {
+    try {
+      const currentUserId = req.user.id
+      const { currentUser, userOrders }  = await userService.getCurrentUser(currentUserId)
+      return res.json({ currentUser, userOrders })
+    } catch (error) {
+      next(error)
+    }
   }
 }
 

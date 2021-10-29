@@ -16,8 +16,7 @@ const authenticated = (req, res, next) =>
     return next()
   })(req, res, next)
 
-const checkUser = () => {
-  return (req, res, next) => {
+const checkUser = (req, res, next) => {
     if (req.user.isAdmin) {
       return res.status(403).json({
         status: 'error',
@@ -25,11 +24,9 @@ const checkUser = () => {
       })
     }
     return next()
-  }
 }
 
-const checkAdmin = () => {
-  return (req, res, next) => {
+const checkAdmin = (req, res, next) => {
     if (!req.user.isAdmin) {
       return res.status(403).json({
         status: 'error',
@@ -37,7 +34,6 @@ const checkAdmin = () => {
       })
     }
     return next()
-  }
 }
 
 module.exports = { authenticated, checkUser, checkAdmin }
