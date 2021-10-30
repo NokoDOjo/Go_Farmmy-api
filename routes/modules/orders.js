@@ -9,4 +9,6 @@ router.get('/:id', orderController.getOrder)
 
 router.get('/:id/payment', paymentController.getPayment)
 
+router.delete('/:id', orderController.deleteOrder)
+
 module.exports = router

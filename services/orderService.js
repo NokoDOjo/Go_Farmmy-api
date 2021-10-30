@@ -1,7 +1,6 @@
 const { Product, Order, OrderItem } = require('../models')
 const apiError = require('../libs/apiError')
 const faker = require('faker')
-const orderitem = require('../models/orderitem')
 const snNum = faker.random.number()
 
 const orderService = {
@@ -58,6 +57,15 @@ const orderService = {
     })
 
     return order
+  },
+  deleteOrder: async (orderId) => {
+    const order = await Order.findByPk(orderId)
+    await order.destroy()
+    await OrderItem.destroy({
+      where: { OrderId: orderId }
+    })
+
+    return { status: 'success', message: 'Successfully deleted order'}
   }
 }
 

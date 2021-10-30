@@ -50,6 +50,16 @@ const orderController = {
     } catch (error) {
       next(error)
     }
+  },
+  deleteOrder: async (req, res, next) => {
+    try {
+      const orderId = req.params.id
+      const { status, message } = await orderService.deleteOrder(orderId)
+
+      return res.json({ status, message })
+    } catch (error) {
+      next(error)
+    }
   }
 }
 
