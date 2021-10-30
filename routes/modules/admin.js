@@ -33,4 +33,8 @@ router.get('/users', authenticated, checkAdmin, adminController.getUsers)
 
 router.put('/users/:id', authenticated, checkAdmin, adminController.putUser)
 
+router.get('/orders', authenticated, checkAdmin, adminController.getOrders)
+
+router.put('/orders/:id', authenticated, checkAdmin, adminController.putOrder)
+
 module.exports = router

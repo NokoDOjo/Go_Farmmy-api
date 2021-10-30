@@ -89,6 +89,25 @@ const adminProduct = {
     } catch (error) {
       next(error)
     }
+  },
+  getOrders: async (req, res, next) => {
+    try {
+      const orders = await adminService.getOrders()
+
+      return res.json({ orders })
+    } catch (error) {
+      next(error)
+    }
+  },
+  putOrder: async (req, res, next) => {
+    try {
+      const orderId = req.params.id
+      const { status, message, order } = await adminService.putOrder(orderId, req.body)
+
+      return res.json({ status, message, order })
+    } catch (error) {
+      next(error)
+    }
   }
 }
 

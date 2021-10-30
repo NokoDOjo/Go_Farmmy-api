@@ -103,6 +103,21 @@ const adminService = {
       message: 'Successfully edited user data',
       user
     }
+  },
+  getOrders: async () => {
+    const orders = Order.findAll({
+      order: [['createdAt', 'ASC']]
+    })
+    
+    return orders
+  },
+  putOrder: async (orderId, body) => {
+    const order = await Order.findByPk(orderId)
+    await order.update({
+      ...body
+    })
+
+    return { status: 'success', message:'successfully edit order status', order }
   }
 }
 
