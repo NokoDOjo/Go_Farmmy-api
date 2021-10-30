@@ -51,6 +51,24 @@ const userService = {
     })
 
     return { currentUser, userOrders }
+  },
+  putUser: async (userId, body) => {
+    const currentUser = await User.findByPk(userId)
+    const password = body.password
+    const newPassword = body.newPassword
+
+    if (!bcrypt.compareSync(body.password, currentUser.password)) {
+      throw apiError.badRequest(403, 'Wrong password')
+    }
+    await currentUser.update({
+      ...body,
+      password: bcrypt.hashSync(newPassword, bcrypt.genSaltSync(10)),
+    })
+
+    return {
+      status: 'success',
+      message: 'Successfully edited user data'
+    }
   }
 }
 

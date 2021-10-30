@@ -9,5 +9,7 @@ router.post('/signin', userController.signIn)
 
 router.get('/currentUser', authenticated, userController.getCurrentUser)
 
+router.put('/', authenticated ,userController.putUser)
+
 module.exports = router
 
