@@ -37,6 +37,10 @@ const cartService = {
   postCart: async (userId, productId, quantity) => {
     const product = await Product.findByPk(productId)
 
+    if (!product) {
+      throw apiError.badRequest(400, 'Cannot find this product')
+    }
+
     if (product.quantity === 0) {
       throw apiError.badRequest(400, 'This merchandise is out of stock')
     }
@@ -66,6 +70,9 @@ const cartService = {
   },
   addCartItem: async (productId, userId) => {
     const product = await Product.findByPk(productId)
+    if (!product) {
+      throw apiError.badRequest(400, 'Cannot find this product')
+    }
     if (product.quantity === 0) {
       throw apiError.badRequest(400, 'This merchandise is out of stock')
     }
@@ -83,6 +90,9 @@ const cartService = {
   },
   subCartItem: async (productId, userId) => {
     const product = await Product.findByPk(productId)
+    if (!product) {
+      throw apiError.badRequest(400, 'Cannot find this product')
+    }
 
     const userCart = await Cart.findOne({
       where: { UserId: userId },
@@ -107,6 +117,8 @@ const cartService = {
     const cartItem = await CartItem.findOne({
       where: { CartId: cartId, ProductId: productId },
     })
+
+    if (!cartItem) { throw apiError.badRequest(400, 'no such cartItem founded') }
 
     await cartItem.destroy()
 
