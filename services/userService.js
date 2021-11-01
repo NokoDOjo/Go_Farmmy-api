@@ -57,7 +57,7 @@ const userService = {
     const password = body.password
     const newPassword = body.newPassword
 
-    if (!bcrypt.compareSync(body.password, currentUser.password)) {
+    if (!bcrypt.compareSync(password, currentUser.password)) {
       throw apiError.badRequest(403, 'Wrong password')
     }
     await currentUser.update({

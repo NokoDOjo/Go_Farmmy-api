@@ -58,9 +58,23 @@ const orderService = {
 
     return order
   },
-  deleteOrder: async (orderId) => {
+  deleteOrder: async (orderId, userId) => {
     const order = await Order.findByPk(orderId)
+    if (!order) {
+      throw apiError.badRequest(404, 'No following order exist')
+    }
+    if (order.UserId !== userId) {
+      throw apiError.badRequest(403, 'Cannot delete others order')
+    }
+
     await order.destroy()
+    const orderItems = await OrderItem.findAll({
+      where: { OrderId: orderId }
+    })
+    await Promise.all(await orderItems.map( async d => {
+      let product = await Product.findByPk(d.ProductId)
+      await product.increment('quantity', { by: d.quantity })
+    }))
     await OrderItem.destroy({
       where: { OrderId: orderId }
     })

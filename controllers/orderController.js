@@ -43,7 +43,7 @@ const orderController = {
   },
   getOrder: async (req, res, next) => {
     try {
-      const orderId = req.params.id 
+      const orderId = req.params.id
       const order = await orderService.getOrder(orderId)
 
       return res.json({order})
@@ -54,7 +54,8 @@ const orderController = {
   deleteOrder: async (req, res, next) => {
     try {
       const orderId = req.params.id
-      const { status, message } = await orderService.deleteOrder(orderId)
+      const userId = req.user.id
+      const { status, message } = await orderService.deleteOrder(orderId, userId)
 
       return res.json({ status, message })
     } catch (error) {
