@@ -37,3 +37,5 @@ app.use(routes)
 app.use(apiErrorHandler)
 
 app.listen(PORT, () => console.log(`Example app listening on port ${PORT}`))
+
+module.exports = app

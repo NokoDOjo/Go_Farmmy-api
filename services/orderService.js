@@ -14,7 +14,8 @@ const orderService = {
     recipientPhone,
     recipientAddress,
     amount,
-    cart
+    cart,
+    shippingInfo
   ) => {
     const orderData = await Order.create({
       sn: snNum,
@@ -26,6 +27,7 @@ const orderService = {
       recipientPhone,
       recipientAddress,
       UserId: userId,
+      shipping_fee: shippingInfo.fee,
       amount
     })
 

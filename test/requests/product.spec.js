@@ -36,4 +36,13 @@ describe('#Product requests', () => {
       await db.Product.destroy({ where: {}, truncate: true })
     })
   })
+
+  describe('GET /api/products/:id', () => {
+    before(async function() {
+      await db.Product.destroy({ where: {}, truncate: true})
+      await db.Product.create({ name: 'product1', quantity: 10 })
+    })
+
+    it('GET specific product')
+  })
 })

@@ -20,7 +20,8 @@ const orderController = {
         recipientPhone,
         recipientAddress,
         checkoutPrice,
-        cart
+        cart,
+        shippingInfo
       )
 
       res.json({

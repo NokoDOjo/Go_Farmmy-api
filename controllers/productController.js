@@ -9,7 +9,7 @@ const productController = {
         return res.status(200).json(products)
       }
       const products = await productService.getProducts()
-      return res.status(200).json(products)
+      return res.status(200).json({products})
     } catch (error) {
       next(error)
     }
@@ -18,7 +18,7 @@ const productController = {
     try {
       const productId = req.params.id
       const product = await productService.getProduct(productId)
-      return res.status(200).json(product)
+      return res.status(200).json({product})
     } catch (error) {
       next(error)
     }
