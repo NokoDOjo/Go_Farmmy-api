@@ -1,7 +1,6 @@
 const { Product, Order, OrderItem } = require('../models')
 const apiError = require('../libs/apiError')
 const faker = require('faker')
-const orderitem = require('../models/orderitem')
 const snNum = faker.random.number()
 
 const orderService = {
@@ -58,6 +57,29 @@ const orderService = {
     })
 
     return order
+  },
+  deleteOrder: async (orderId, userId) => {
+    const order = await Order.findByPk(orderId)
+    if (!order) {
+      throw apiError.badRequest(404, 'No following order exist')
+    }
+    if (order.UserId !== userId) {
+      throw apiError.badRequest(403, 'Cannot delete others order')
+    }
+
+    await order.destroy()
+    const orderItems = await OrderItem.findAll({
+      where: { OrderId: orderId }
+    })
+    await Promise.all(await orderItems.map( async d => {
+      let product = await Product.findByPk(d.ProductId)
+      await product.increment('quantity', { by: d.quantity })
+    }))
+    await OrderItem.destroy({
+      where: { OrderId: orderId }
+    })
+
+    return { status: 'success', message: 'Successfully deleted order'}
   }
 }
 

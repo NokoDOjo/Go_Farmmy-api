@@ -33,6 +33,16 @@ const userController = {
     } catch (error) {
       next(error)
     }
+  },
+  putUser: async (req, res, next) => {
+    try {
+      const currentUserId = req.user.id
+      const { status, message } = await userService.putUser(currentUserId, req.body)
+
+      return res.json({ status, message })
+    } catch (error) {
+      next(error)
+    }
   }
 }
 
