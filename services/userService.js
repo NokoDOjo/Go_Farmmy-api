@@ -48,6 +48,7 @@ const userService = {
     const userOrders = await Order.findAll({
       where: { UserId: userId },
       include: [{ model: Product, as: 'items' }],
+      order: [['createdAt', 'DESC']]
     })
 
     return { currentUser, userOrders }
