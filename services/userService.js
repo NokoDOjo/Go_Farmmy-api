@@ -61,7 +61,10 @@ const userService = {
     const currentUser = await User.findByPk(userId)
     const password = body.password
     const newPassword = body.newPassword
-
+    if (!password) {
+      await currentUser.update({...body})
+      return { status: 'success', message: 'Successfully edited user data' }
+    }
     if (!bcrypt.compareSync(password, currentUser.password)) {
       throw apiError.badRequest(403, 'Wrong password')
     }
@@ -72,7 +75,7 @@ const userService = {
 
     return {
       status: 'success',
-      message: 'Successfully edited user data'
+      message: 'Successfully edited user data including password'
     }
   }
 }
