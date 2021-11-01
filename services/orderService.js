@@ -69,7 +69,7 @@ const orderService = {
       throw apiError.badRequest(403, 'Cannot delete others order')
     }
 
-    await order.destroy()
+    await order.update({ payment_status: 2 })
     const orderItems = await OrderItem.findAll({
       where: { OrderId: orderId }
     })

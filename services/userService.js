@@ -2,6 +2,7 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const { User, Order, Product } = require('../models')
 const apiError = require('../libs/apiError')
+const { Op } = require('sequelize')
 
 const userService = {
   signUp: async (name, email, password) => {
@@ -46,7 +47,10 @@ const userService = {
   getCurrentUser: async (userId) => {
     const currentUser = await User.findByPk(userId)
     const userOrders = await Order.findAll({
-      where: { UserId: userId },
+      where: { 
+        UserId: userId,
+        payment_status: { [Op.not]: 2 } 
+      },
       include: [{ model: Product, as: 'items' }],
       order: [['createdAt', 'DESC']]
     })
