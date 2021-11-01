@@ -22,7 +22,7 @@ describe('#Product requests', () => {
         .get('/api/products')
         .set('Accept', 'application/json')
         .expect(200)
-        .end(function(err, res) {
+        .end((err, res) => {
           if (err) return done(err)
           expect(res.body.products.length).to.be.equal(2)
           expect(res.body.products[0].name).to.be.equal('product1')
@@ -43,6 +43,23 @@ describe('#Product requests', () => {
       await db.Product.create({ name: 'product1', quantity: 10 })
     })
 
-    it('GET specific product')
+    it('GET individual product', done => {
+      request(app)
+        .get('/api/products/1')
+        .set('Accept', 'application/json')
+        .expect(200)
+        .end((err, res) => {
+          if (err) return done(err)
+
+          expect(res.body.product.id).to.be.equal(1)
+          expect(res.body.product.name).to.be.equal('product1')
+
+          done()
+        })
+    })
+
+    after(async () => {
+      await db.Product.destroy({ where: {}, truncate: true })
+    })
   })
 })
