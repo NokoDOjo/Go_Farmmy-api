@@ -6,7 +6,7 @@ const productController = {
       if (req.query.categoryId) {
         const CategoryId = req.query.categoryId
         const products = await productService.getProductsByCategory(CategoryId)
-        return res.status(200).json(products)
+        return res.status(200).json({products})
       }
       const products = await productService.getProducts()
       return res.status(200).json({products})
