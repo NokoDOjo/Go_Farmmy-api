@@ -3,7 +3,8 @@ const router = express.Router()
 const { authenticated, checkAdmin } = require('../../middlewares/auth')
 const adminController = require('../../controllers/adminController')
 const multer = require('multer')
-const { Router } = require('express')
+const validate = require('../../middlewares/validate')
+const { signIn } = require('../../libs/shema')
 const upload = multer({
   dest: 'temp/',
   fileFilter(req, files, cb) {
@@ -17,7 +18,7 @@ const cpUpload = upload.fields([
   { name: 'image', maxCount: 1 }
 ])
 
-router.post('/signin', adminController.signIn)
+router.post('/signin', validate(signIn), adminController.signIn)
 
 router.get('/products', authenticated, checkAdmin, adminController.getProducts)
 
