@@ -9,6 +9,8 @@ router.post('/', validate(signUp), userController.signUp)
 
 router.post('/signin', validate(signIn), userController.signIn)
 
+router.post('/fbGoogleSignIn', userController.fbGoogleLogin)
+
 router.get('/currentUser', authenticated, userController.getCurrentUser)
 
 router.put('/', validate(user), authenticated ,userController.putUser)

@@ -25,6 +25,21 @@ const userController = {
       next(error)
     }
   },
+  fbGoogleLogin: async (req, res, next) => {
+    try {
+      const { email, name } = req.body
+      const { status, message, token, user } = await userService.fbGoogleSignIn(name, email)
+
+      return res.json({
+        status,
+        message,
+        token,
+        user,
+      })    
+    } catch (error) {
+      next(error)
+    }
+  },
   getCurrentUser: async (req, res, next) => {
     try {
       const currentUserId = req.user.id

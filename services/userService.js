@@ -44,6 +44,32 @@ const userService = {
       }
     }
   },
+  fbGoogleSignIn: async (name, email) => {
+    const randomPassword = Math.random().toString(36).slice(-8)
+    const password = bcrypt.hashSync(randomPassword, bcrypt.genSaltSync(10))
+
+    const [user] = await User.findOrCreate({
+      where: { email },
+      defaults: { password, name }
+    })
+
+
+    const payload = { id: user.id }
+    const token = jwt.sign(payload, process.env.JWT_SECRET)
+
+    return {
+      status: 'success',
+      message: 'Successfully login',
+      token: token,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+      },
+    }
+
+
+  },
   getCurrentUser: async (userId) => {
     const currentUser = await User.findByPk(userId)
     const userOrders = await Order.findAll({

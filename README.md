@@ -26,6 +26,7 @@ GoFarmmy-Back-End-API-Node 是一個使用 Node.js + Express + MySQL/ClearDB 建
 - 整合 Google API / OAuth 2.0 / nodemailer 實現 Email 通知功能
 - 整合 imgur API，實作上傳圖片功能
 - 採用 bcrypt 處理使用者密碼
+- 採用 AJV 實作validate middleware，針對req.body進行JSON格式驗證
 
 ## API Reference - 格式範例
 
