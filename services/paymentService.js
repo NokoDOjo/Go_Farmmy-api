@@ -9,7 +9,7 @@ const PayGateWay = 'https://ccore.spgateway.com/MPG/mpg_gateway'
 const URL = process.env.URL
 const ReturnURL = URL + '/spgateway/callback?from=ReturnURL' //
 const NotifyURL = URL + '/spgateway/callback?from=NotifyURL'
-const ClientBackURL = 'https://localhost:8080/order'
+const ClientBackURL = 'https://jiayenli.github.io/go_farmmy_vue/#/goFarmmy/order'
 
 
 function genDataChain(TradeInfo) {
@@ -108,10 +108,10 @@ const paymentService = {
       await order.update({
         payment_status: 1
       })
-      redirectURL = 'http://localhost:8080/#/goFarmmy/checkout/complete'
+      redirectURL = 'https://jiayenli.github.io/go_farmmy_vue/#/goFarmmy/checkout/complete'
       return redirectURL
     }
-    redirectURL = 'http://localhost:8080/#/goFarmmy/checkout/payment'
+    redirectURL = 'https://jiayenli.github.io/go_farmmy_vue/#/goFarmmy/checkout/payment'
     return redirectURL
   }
 }
