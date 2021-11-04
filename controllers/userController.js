@@ -25,10 +25,10 @@ const userController = {
       next(error)
     }
   },
-  fbGoogleLogin: async (req, res, next) => {
+  fbSignIn: async (req, res, next) => {
     try {
       const { email, name } = req.body
-      const { status, message, token, user } = await userService.fbGoogleSignIn(name, email)
+      const { status, message, token, user } = await userService.fbSignIn(name, email)
 
       return res.json({
         status,
@@ -36,6 +36,20 @@ const userController = {
         token,
         user,
       })    
+    } catch (error) {
+      next(error)
+    }
+  },
+  googleSignIn: async (req, res, next) => {
+    try {
+      const { token } = req.body
+      const { status, message, JWTtoken, user } = await userService.googleSignIn(token)
+      return res.json({
+        status,
+        message,
+        JWTtoken,
+        user
+      })
     } catch (error) {
       next(error)
     }

@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken')
 const { User, Order, Product } = require('../models')
 const apiError = require('../libs/apiError')
 const { Op } = require('sequelize')
+const { OAuth2Client } = require('google-auth-library')
 
 const userService = {
   signUp: async (name, email, password) => {
@@ -44,7 +45,7 @@ const userService = {
       }
     }
   },
-  fbGoogleSignIn: async (name, email) => {
+  fbSignIn: async (name, email) => {
     const randomPassword = Math.random().toString(36).slice(-8)
     const password = bcrypt.hashSync(randomPassword, bcrypt.genSaltSync(10))
 
@@ -67,8 +68,38 @@ const userService = {
         email: user.email,
       },
     }
+  },
+  googleSignIn: async (token) => {
+    const GOOGLE_AUTH_ID = process.env.GOOGLE_AUTH_ID
+    const client = new OAuth2Client(GOOGLE_AUTH_ID)
+    
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: GOOGLE_AUTH_ID
+    })
+    const payload = ticket.getPayload()
+    const { name, email } = payload
+    const randomPassword = Math.random().toString(36).slice(-8)
+    const password = bcrypt.hashSync(randomPassword, bcrypt.genSaltSync(10))
 
+    const [user] = await User.findOrCreate({
+      where: { email },
+      defaults: { password, name },
+    })
 
+    const jwtPayload = { id: user.id }
+    const JWTtoken = jwt.sign(jwtPayload, process.env.JWT_SECRET)
+
+    return {
+      status: 'success',
+      message: 'Successfully login',
+      JWTtoken,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+      },
+    }
   },
   getCurrentUser: async (userId) => {
     const currentUser = await User.findByPk(userId)

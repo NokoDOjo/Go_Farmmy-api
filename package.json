@@ -23,6 +23,7 @@
     "express": "^4.17.1",
     "express-session": "^1.17.2",
     "faker": "^5.5.3",
+    "google-auth-library": "^7.10.2",
     "googleapis": "^89.0.0",
     "imgur": "^1.0.2",
     "jsonwebtoken": "^8.5.1",
