@@ -22,6 +22,16 @@ const signInSchema = {
   additionalProperties: false
 }
 
+const fbGoogleSignInSchema = {
+  type: 'object',
+  properties: {
+    email: { type: 'string', format: 'email' },
+    name: { type: 'string', minLength: 1 },
+  },
+  required: ['email', 'name'],
+  additionalProperties: false,
+}
+
 const userSchema = {
   type: 'object',
   properties: {
@@ -51,5 +61,6 @@ const signUp = ajvInstance.compile(signUpSchema)
 const signIn = ajvInstance.compile(signInSchema)
 const user = ajvInstance.compile(userSchema)
 const order = ajvInstance.compile(orderSchema)
+const fbGoogle = ajvInstance.compile(fbGoogleSignInSchema)
 
-module.exports = { signUp, signIn, user, order }
+module.exports = { signUp, signIn, user, order, fbGoogle }
