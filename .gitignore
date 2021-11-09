@@ -91,3 +91,6 @@ typings/
 temp/
 upload/
 .vscode
+
+# AWS deploy
+.elasticebanstalk/

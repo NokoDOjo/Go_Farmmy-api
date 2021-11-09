@@ -36,9 +36,7 @@ const userSchema = {
   type: 'object',
   properties: {
     name: { type: 'string', maxLength: 20, minLength: 1 },
-    email: { type: 'string', format: 'email' },
-    password: { type: 'string', minLength: 1 },
-    newPassword: { type: 'string', minLength: 1 }
+    email: { type: 'string', format: 'email' }
   }
 }
 
