@@ -11,6 +11,14 @@ const db = {};
 let sequelize;
 if (config.use_env_variable) {
   sequelize = new Sequelize(process.env[config.use_env_variable], config);
+} else if (env === 'production') {
+  sequelize = new Sequelize('gofarmmy', 'admin', 'benny131313', {
+    host: 'gofarmmy.cjk9epggmtte.us-east-2.rds.amazonaws.com',
+    port: 3306,
+    dialect: 'mysql',
+    logging: false,
+    ssl: 'Amazon RDS',
+  })
 } else {
   sequelize = new Sequelize(config.database, config.username, config.password, config);
 }
