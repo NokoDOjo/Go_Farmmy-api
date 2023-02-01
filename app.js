@@ -34,6 +34,10 @@ app.use(passport.initialize())
 
 app.use(routes)
 
+app.get('/', (req, res) => {
+  res.sendStatus(200)
+})
+
 app.use(apiErrorHandler)
 
 app.listen(PORT, () => console.log(`Example app listening on port ${PORT}`))
